@@ -3,10 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script defer src="main.js"></script>
     <title>Todo List</title>
 </head>
 <body>
-    
+    <header>
+        <div class="menuToggle btn material-symbols-rounded">menu</div>
+        <div class="headerTitle">To<span>Do</span> List</div>
+        <div class="headerIcons"></div>
+    </header>
+    <div class="content">
+        <div class="mainMenu">
+            <div class="home">
+                <h2>Home</h2>
+                <div class="allTasks">
+                    <div class="material-symbols-rounded">dynamic_feed</div>
+                    <div>All Tasks</div>
+                </div>
+                <div class="today">
+                    <div class="material-symbols-rounded">today</div>
+                    <div>Today</div>
+                </div>
+                <div class="thisWeek">
+                    <div class="material-symbols-rounded">date_range</div>
+                    <div>This Week</div>
+                </div>
+                <div class="bookmarks">
+                    <div class="material-symbols-rounded">bookmarks</div>
+                    <div>Bookmarked</div>
+                </div>
+            </div>
+            <div class="projects">
+                <h2>Projects</h2>
+                <div class="addProject">
+                    <div class="material-symbols-rounded">add_circle</div>
+                    <div>Add Project</div>
+                </div>
+            </div>
+        </div>
+        <div class="mainContent">
+            <div class="title">All Tasks</div>
+            <div class="taskList">
+                <ul></ul>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footerText">Hope this helps you stay a little more on task...</div>
+    </footer>
 </body>
 </html>

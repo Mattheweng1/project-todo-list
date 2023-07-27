@@ -1,0 +1,1 @@
+document.querySelector(".menuToggle").addEventListener("click",(()=>{document.querySelector(".mainMenu").classList.toggle("hidden")}));
