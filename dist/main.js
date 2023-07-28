@@ -1,1 +1,1 @@
-document.querySelector(".menuToggle").addEventListener("click",(()=>{document.querySelector(".mainMenu").classList.toggle("hidden")}));
+(()=>{const e=document.querySelector(".menuToggle");e.addEventListener("click",(()=>{document.querySelector(".mainMenu").classList.toggle("hideMenu")})),e.addEventListener("click",(()=>{document.querySelector(".mainContent").classList.toggle("noMargin")}))})();
