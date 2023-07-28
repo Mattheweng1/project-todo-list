@@ -71,7 +71,9 @@ header {
 }
 
 .menuToggle {
-    padding: 16px;
+    padding: 8px;
+    margin: 12px;
+    transform: scale(1.5);
 }
 
 .menuToggle:hover {
@@ -80,7 +82,7 @@ header {
 }
 
 .menuToggle:active {
-    transform: scale(0.9);
+    transform: scale(1.4);
 }
 
 .content {
@@ -141,6 +143,23 @@ header {
 .mainContent>.title {
     background-color: var(--red-500);
     padding: 8px;
+}
+
+.mainContent>.taskList>.addTask {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    padding: 8px;
+    gap: 8px;
+    margin-left: 16px;
+}
+
+.addTask:hover {
+    background-color: var(--slate-200);
+    cursor: pointer;
+}
+
+.addTask:active {
+    background-color: var(--slate-300);
 }
 
 footer {
