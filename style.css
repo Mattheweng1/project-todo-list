@@ -38,8 +38,12 @@ button {
     justify-items: center;
 }
 
-.hidden {
-    display: none;
+.hideMenu {
+    transform: translate(-15rem);
+}
+
+.noMargin {
+    margin: 0 !important;
 }
 
 body {
@@ -52,8 +56,8 @@ header {
     background-color: var(--slate-200);
     display: grid;
     grid-template-columns: auto 1fr auto;
-    padding: 8px;
-    gap: 8px;
+    padding: 16px;
+    gap: 16px;
     align-items: center;
 }
 
@@ -66,22 +70,33 @@ header {
     color: var(--red-500);
 }
 
-header>div {
-    padding: 8px;
+.menuToggle {
+    padding: 16px;
 }
 
 .menuToggle:hover {
     background-color: var(--slate-300);
+    cursor: pointer;
+}
+
+.menuToggle:active {
+    transform: scale(0.9);
 }
 
 .content {
     display: grid;
     grid-template-columns: auto 1fr;
+    position: relative;
 }
 
 .mainMenu {
+    display: grid;
+    align-content: start;
     padding: 16px;
     gap: 8px;
+    transition: 1s;
+    position: absolute;
+    width: 15rem;
 }
 
 .mainMenu h2 {
@@ -107,6 +122,11 @@ header>div {
     background-color: var(--slate-100);
 }
 
+.mainMenu>.home>div:active,
+.mainMenu>.projects>div:active {
+    background-color: var(--slate-200);
+}
+
 .mainContent {
     background-color: var(--slate-50);
     display: grid;
@@ -114,6 +134,8 @@ header>div {
     padding: 8px;
     gap: 8px;
     grid-column: 2/3;
+    margin-left: 15rem;
+    transition: 1s;
 }
 
 .mainContent>.title {
