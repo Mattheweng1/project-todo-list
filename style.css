@@ -17,6 +17,10 @@ button {
 	outline: inherit;
 }
 
+li {
+    list-style: none;
+}
+
 :root {
     font-family: 'Prompt', sans-serif;
     --slate-50: #f8fafc;
@@ -38,6 +42,10 @@ button {
     justify-items: center;
 }
 
+.hidden {
+    display: none;
+}
+
 .hideMenu {
     transform: translate(-15rem);
 }
@@ -46,11 +54,17 @@ button {
     margin: 0 !important;
 }
 
+.btn:hover {
+    cursor: pointer;
+}
+
 body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
 }
+
+/* header */
 
 header {
     background-color: var(--slate-200);
@@ -85,11 +99,15 @@ header {
     transform: scale(1.4);
 }
 
+/* content */
+
 .content {
     display: grid;
     grid-template-columns: auto 1fr;
     position: relative;
 }
+
+/* content/mainMenu */
 
 .mainMenu {
     display: grid;
@@ -129,6 +147,24 @@ header {
     background-color: var(--slate-200);
 }
 
+.mainMenu>.projects>.projectList>li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    padding: 8px;
+    gap: 8px;
+}
+
+.mainMenu>.projects>.projectList>li:hover {
+    cursor: pointer;
+    background-color: var(--slate-100);
+}
+
+.mainMenu>.projects>.projectList>li:active {
+    background-color: var(--slate-200);
+}
+
+/* content/mainContent */
+
 .mainContent {
     background-color: var(--slate-50);
     display: grid;
@@ -145,7 +181,35 @@ header {
     padding: 8px;
 }
 
-.mainContent>.taskList>.addTask {
+.mainContent>.tasks>.taskList>li {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    background-color: white;
+    padding: 8px;
+    gap: 8px;
+}
+
+.taskList>li>.detailsToggle {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+}
+
+.detailsToggle:hover {
+    cursor: pointer;
+    background-color: var(--slate-100);
+}
+
+.detailsToggle:active {
+    background-color: var(--slate-200);
+}
+
+.taskList>li>.details {
+    grid-column: 3/-1;
+}
+
+.mainContent>.tasks>.addTask {
     display: grid;
     grid-template-columns: auto 1fr;
     padding: 8px;
@@ -161,6 +225,8 @@ header {
 .addTask:active {
     background-color: var(--slate-300);
 }
+
+/* footer */
 
 footer {
     background-color: var(--slate-200);
