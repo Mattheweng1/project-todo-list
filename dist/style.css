@@ -27,8 +27,13 @@ li {
     --slate-100: #f1f5f9;
     --slate-200: #e2e8f0;
     --slate-300: #cbd5e1;
+    --red-400: #f87171;
     --red-500: #ef4444;
     --red-600: #dc2626;
+    --orange-300: #fdba74;
+    --yellow-200: #fef08a;
+    --green-700: #15803d;
+    --blue-600: #2563eb;
 }
 
 .material-symbols-rounded {
@@ -40,10 +45,31 @@ li {
     display: grid;
     align-items: center;
     justify-items: center;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.hidden {
-    display: none;
+.prevent-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.filledIcon {
+    font-variation-settings:
+    'FILL' 1 !important;
+    color: var(--blue-600);
+}
+
+.displayNone {
+    display: none !important;
+}
+
+.noWrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .hideMenu {
@@ -123,13 +149,18 @@ header {
     margin: 8px 0;
 }
 
+#projects {
+    display: grid;
+    gap: 4px;
+}
+
 .mainMenu>.home>h2,
-.mainMenu>.projects>h2 {
+.mainMenu>#projects>h2 {
     border-bottom: solid black 2px;
 }
 
 .mainMenu>.home>div,
-.mainMenu>.projects>div {
+.mainMenu>#projects>div {
     display: grid;
     grid-template-columns: auto 1fr;
     padding: 8px;
@@ -137,30 +168,86 @@ header {
 }
 
 .mainMenu>.home>div:hover,
-.mainMenu>.projects>div:hover {
+.mainMenu>#projects>div:hover {
     cursor: pointer;
     background-color: var(--slate-100);
 }
 
 .mainMenu>.home>div:active,
-.mainMenu>.projects>div:active {
+.mainMenu>#projects>div:active {
     background-color: var(--slate-200);
 }
 
-.mainMenu>.projects>.projectList>li {
+.project {
     display: grid;
     grid-template-columns: auto 1fr auto;
     padding: 8px;
     gap: 8px;
 }
 
-.mainMenu>.projects>.projectList>li:hover {
+#projectList:not(.dragging)>.project:hover {
     cursor: pointer;
     background-color: var(--slate-100);
 }
 
-.mainMenu>.projects>.projectList>li:active {
+#projectList:not(.dragging)>.project:active {
     background-color: var(--slate-200);
+}
+
+.project.dragging {
+    background-color: var(--slate-200);
+}
+
+#editProjectForm {
+    grid-column: 2/-1;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+#editProjectName {
+    width: 100%;
+    grid-column: 1/-1;
+}
+
+#submitEditProjectForm {
+    background-color: lightgreen;
+}
+
+#cancelEditProjectForm {
+    background-color: var(--red-500);
+}
+
+#addProjectForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 8px;
+    background-color: var(--slate-200);
+}
+
+#addProjectForm>label {
+    grid-column: 1/-1;
+    display: grid;
+    gap: 8px;
+}
+
+#addProjectForm>label>div {
+    color: var(--red-500);
+    font-weight: bold;
+}
+
+#addProjectName {
+    width: 100%;
+}
+
+#submitAddProjectForm {
+    background-color: lightgreen;
+}
+
+#cancelAddProjectForm {
+    background-color: var(--red-500);
 }
 
 /* content/mainContent */
@@ -176,54 +263,271 @@ header {
     transition: 1s;
 }
 
-.mainContent>.title {
+.mainContent>#mainContentTitle {
     background-color: var(--red-500);
-    padding: 8px;
+    padding: 8px 16px;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.mainContent>.tasks>.taskList>li {
+.mainContent>#tasks {
     display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
-    background-color: white;
-    padding: 8px;
+    gap: 8px;
+    position: relative;
+}
+
+.mainContent>#tasks>#taskList {
+    display: grid;
     gap: 8px;
 }
 
-.taskList>li>.detailsToggle {
+#taskList>li {
+    display: grid;
+    grid-template-columns: auto 50px 5fr 110px 100px auto auto;
+    background-color: white;
+    padding: 8px;
+    gap: 8px;
+    transition: all 0.3s ease-in;
+}
+
+.taskCompletion {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskCompletion:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.taskCompletion:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.completed > svg > .c-form__radio-tick {
+    stroke-dashoffset: 0;
+}
+
+li.completed {
+    background-color: lightgreen !important;
+}
+
+.c-form__radio-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+    vertical-align: middle;
+}
+
+.c-form__radio-circle {
+    fill: none;
+    stroke: black;
+    stroke-width: 2;
+    transition: stroke 0.3s ease-in;
+}
+
+.c-form__radio-tick {
+    fill: none;
+    stroke: var(--green-700);
+    stroke-dasharray: 33; /* this is the length of the line */
+    stroke-dashoffset: 33; /* this is the length of the line */
+    stroke-width: 3;
+    transition: stroke-dashoffset 0.3s ease-in;
+}
+
+#taskList>li>.taskName {
+    grid-column: 2/4;
+}
+
+#taskList>li>.priority {
+    padding: 0 8px;
+    cursor: pointer;
+}
+
+#taskList>li>.priority:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#taskList>li>.priority:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#taskList>li>.dueDate {
+    text-align: right;
+}
+
+.bookmark:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bookmark:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.taskOptions:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.taskOptions:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#taskMenu,
+#projectMenu {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: -8px 4px 12px -3px rgba(0, 0, 0, 0.5);
+}
+
+#taskMenu .taskMenuItem,
+#projectMenu .projectMenuItem {
+    padding: 8px 16px;
+    font-size: 15px;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+#taskMenu .taskMenuItem:hover,
+#projectMenu .projectMenuItem:hover {
+    background-color: var(--slate-100);
+}
+
+#taskList>li>.detailsToggle {
     grid-column: 1/3;
     display: grid;
     grid-template-columns: auto auto;
-    justify-content: center;
+    justify-content: start;
+    gap: 8px;
+    padding-left: 8px;
 }
 
 .detailsToggle:hover {
     cursor: pointer;
-    background-color: var(--slate-100);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .detailsToggle:active {
-    background-color: var(--slate-200);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-.taskList>li>.details {
+#taskList>li>.details {
     grid-column: 3/-1;
 }
 
-.mainContent>.tasks>.addTask {
+#editTaskForm {
+    grid-column: 1/-1;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+#addTask {
     display: grid;
-    grid-template-columns: auto 1fr;
     padding: 8px;
     gap: 8px;
     margin-left: 16px;
 }
 
-.addTask:hover {
+#addTask {
+    grid-template-columns: auto 1fr;
+}
+
+#addTask:hover {
     background-color: var(--slate-200);
     cursor: pointer;
 }
 
-.addTask:active {
+#addTask:active {
     background-color: var(--slate-300);
+}
+
+#addTaskForm,
+#editTaskForm {
+    background-color: var(--slate-200);
+    display: grid;
+    padding: 8px;
+    gap: 8px;
+    margin-left: 16px;
+}
+
+#addTaskFormTitle {
+    font-size: 1.5rem;
+    color: var(--red-500);
+    font-weight: bold;
+}
+
+#addTaskName,
+#addTaskDetails,
+#editTaskName,
+#editTaskDetails {
+    width: 100%;
+}
+
+#addTaskDetails,
+#editTaskDetails {
+    resize: none;
+}
+
+#addTaskDateAndPriority {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: left;
+    gap: 32px;
+}
+
+#addTaskPriority>div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 8px;
+    gap: 8px;
+}
+
+#addTaskPriority label {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+    padding: 8px;
+    border: solid 1px black;
+}
+
+.noPrio,
+#taskList>.noPrio {
+    background-color: white;
+}
+
+.yellowPrio,
+#taskList>.yellowPrio {
+    background-color: var(--yellow-200);
+}
+
+.orangePrio,
+#taskList>.orangePrio {
+    background-color: var(--orange-300);
+}
+
+.redPrio,
+#taskList>.redPrio {
+    background-color: var(--red-400);
+}
+
+#addTaskFormBtns,
+#editTaskFormBtns {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+}
+
+#submitAddTaskForm,
+#submitEditTaskForm {
+    background-color: lightgreen;
+}
+
+#cancelAddTaskForm,
+#cancelEditTaskForm {
+    background-color: var(--red-500);
 }
 
 /* footer */

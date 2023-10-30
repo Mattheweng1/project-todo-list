@@ -9,7 +9,7 @@
     <script defer src="main.js"></script>
     <title>Todo List</title>
 </head>
-<body>
+<body id="body">
     <header>
         <div class="menuToggle btn material-symbols-rounded">menu</div>
         <div class="headerTitle">To<span>Do</span> List</div>
@@ -36,23 +36,73 @@
                     <div>Bookmarked</div>
                 </div>
             </div>
-            <div class="projects">
+            <div id="projects">
                 <h2>Projects</h2>
-                <ul class="projectList"></ul>
-                <div class="addProject">
+                <ul id="projectList"></ul>
+                <div id="addProject">
                     <div class="material-symbols-rounded">add_circle</div>
                     <div>Add Project</div>
                 </div>
+                <form id="addProjectForm" class="displayNone">
+                    <label for="addProjectName">
+                        <div>New Project</div>
+                        <input type="text" id="addProjectName" name="addProjectName" placeholder="Project Name" required>
+                    </label>
+                    <button type="submit" id="submitAddProjectForm">Add</button>
+                    <button type="button" id="cancelAddProjectForm">Cancel</button>
+                </form>
             </div>
         </div>
         <div class="mainContent">
-            <div class="title">All Tasks</div>
-            <div class="tasks">
-                <ul class="taskList"></ul>
-                <div class="addTask">
+            <div id="mainContentTitle">Work Stuff</div>
+            <div id="tasks">
+                <ul id="taskList"></ul>
+                <div id="addTask">
                     <div class="material-symbols-rounded">add_circle</div>
                     <div>Add Task</div>
                 </div>
+                <form id="addTaskForm" class="displayNone">
+                    <div id="addTaskFormTitle">New Task</div>
+                    <label for="addTaskName">
+                        <div>Task Name</div>
+                        <input type="text" id="addTaskName" name="addTaskName" placeholder="What to do?" required>
+                    </label>
+                    <label for="addTaskDetails">
+                        <div>Details (optional)</div>
+                        <textarea id="addTaskDetails" name="addTaskDetails" cols="30" rows="3" maxlength="240" placeholder="Example: This is for this, or I have to do this, this, and that to do this..."></textarea>
+                    </label>
+                    <div id="addTaskDateAndPriority">
+                        <label for="addTaskDueDate">
+                            <div>Due Date</div>
+                            <input type="date" id="addTaskDueDate" name="addTaskDueDate" required>
+                        </label>
+                        <fieldset id="addTaskPriority">
+                            <legend>Priority</legend>
+                            <div>
+                                <label for="addPriorityX" class="noPrio">
+                                    <input type="radio" id="addPriorityX" name="addPriority" value="X" checked>
+                                    <div>X</div>
+                                </label>
+                                <label for="addPriority1" class="yellowPrio">
+                                    <input type="radio" id="addPriority1" name="addPriority" value="1">
+                                    <div>!</div>
+                                </label>
+                                <label for="addPriority2" class="orangePrio">
+                                    <input type="radio" id="addPriority2" name="addPriority" value="2">
+                                    <div>!!</div>
+                                </label>
+                                <label for="addPriority3" class="redPrio">
+                                    <input type="radio" id="addPriority3" name="addPriority" value="3">
+                                    <div>!!!</div>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="addTaskFormBtns">
+                        <button type="submit" id="submitAddTaskForm">Add Task</button>
+                        <button type="button" id="cancelAddTaskForm">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
