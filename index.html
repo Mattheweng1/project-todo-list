@@ -19,19 +19,19 @@
         <div class="mainMenu">
             <div class="home">
                 <h2>Home</h2>
-                <div class="allTasks">
+                <div id="allTasks">
                     <div class="material-symbols-rounded">dynamic_feed</div>
                     <div>All Tasks</div>
                 </div>
-                <div class="today">
+                <div id="todayTasks">
                     <div class="material-symbols-rounded">today</div>
                     <div>Today</div>
                 </div>
-                <div class="thisWeek">
+                <div id="thisWeekTasks">
                     <div class="material-symbols-rounded">date_range</div>
                     <div>This Week</div>
                 </div>
-                <div class="bookmarks">
+                <div id="bookmarkedTasks">
                     <div class="material-symbols-rounded">bookmarks</div>
                     <div>Bookmarked</div>
                 </div>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="mainContent">
-            <div id="mainContentTitle">Work Stuff</div>
+            <div id="mainContentTitle">All Tasks</div>
             <div id="tasks">
                 <ul id="taskList"></ul>
                 <div id="addTask">
@@ -80,7 +80,7 @@
                             <legend>Priority</legend>
                             <div>
                                 <label for="addPriorityX" class="noPrio">
-                                    <input type="radio" id="addPriorityX" name="addPriority" value="X" checked>
+                                    <input type="radio" id="addPriorityX" name="addPriority" value="0" checked>
                                     <div>X</div>
                                 </label>
                                 <label for="addPriority1" class="yellowPrio">
