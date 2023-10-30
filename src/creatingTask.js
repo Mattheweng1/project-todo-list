@@ -1,7 +1,6 @@
-import { projectList } from "./creatingProject";
+import { projectList, saveToLocalStorage } from "./creatingProject";
 import { v4 as uuidv4 } from 'uuid';
-
-
+import { convertTaskDueDate } from "./renderTaskList";
 
 const CreateTask = (projectName, taskName, details, completed, priority, bookmarked, dueDate) => {
     const taskID = uuidv4();
@@ -26,6 +25,8 @@ const addTaskToProject = (task) => {
 const addNewTask = (projectName, taskName, details, completed, priority, bookmarked, dueDate) => {
     const newTask = CreateTask(projectName, taskName, details, completed, priority, bookmarked, dueDate);
     addTaskToProject(newTask);
+
+    saveToLocalStorage();
     
     return newTask;
 }
@@ -44,4 +45,20 @@ const getTaskFromTaskID = (taskID) => {
     })
 }
 
-export {addNewTask, getProjectFromTaskID, getTaskFromTaskID};
+const convertTaskDueDate = (taskDueDate) => {
+    const dateArr = taskDueDate.split('-');
+    return new Date(dateArr[0], dateArr[1]-1, dateArr[2]);
+}
+
+const sortTaskList = (taskList) => {
+    // Sort by priority
+    taskList.sort((taskA, taskB) => {
+        return taskB.priority - taskA.priority;
+    })
+    // Sort by dueDate
+    return taskList.sort((taskA, taskB) => {
+        return convertTaskDueDate(taskA.dueDate) - convertTaskDueDate(taskB.dueDate);
+    })
+}
+
+export { addNewTask, getProjectFromTaskID, getTaskFromTaskID, sortTaskList, convertTaskDueDate };

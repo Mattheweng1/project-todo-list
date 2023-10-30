@@ -1,3 +1,5 @@
+import { sortProjectList } from "./creatingProject";
+
 const container = document.getElementById('projectList');
 
 // Add all event listeners for drag and drop
@@ -36,6 +38,8 @@ const dragStartEndEvent = (draggable) => {
   draggable.addEventListener('dragend', () => {
     draggable.classList.remove('dragging');
     container.classList.remove('dragging');
+
+    sortProjectList();
   });
 };
 

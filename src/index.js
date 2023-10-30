@@ -1,21 +1,39 @@
 import { projectList, addNewProject } from "./creatingProject";
 import { addNewTask, getProjectFromTaskID } from "./creatingTask";
-import { renderEditTaskForm, renderProjectList, renderTaskListFromProject, getRadioValue } from "./render";
+import { renderProjectList } from "./renderProjects";
+import { renderAllTaskList, renderBookmarkedTaskList, renderThisWeekTaskList, renderTodayTaskList, renderTaskListFromProject } from "./renderTaskList";
 
+const getRadioValue = (name) => {
+    const radios = document.getElementsByName(name);
 
-addNewProject('Work Stuff');
+    for (let i=0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            return radios[i].value;
+        }
+    }
+}
+
+/* addNewProject('Work Stuff');
 addNewProject('chores');
 
-const exampleTask = addNewTask('Work Stuff', 'Code project', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, true, '1', true, '1995-12-17');
+const exampleTask = addNewTask('Work Stuff', 'Code project', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, true, '1', true, '2023-10-30');
 
-console.log(exampleTask.taskID);
+const exampleTask2 = addNewTask('chores', 'sumting', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '2', true, '2023-10-30');
+
+const exampleTask3 = addNewTask('chores', 'sumting else', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '3', false, '2023-10-31');
+
+const exampleTask4 = addNewTask('Work Stuff', 'check tasks', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '3', false, '2023-11-17'); */
+
+/* console.log(exampleTask.taskID);
 console.log(exampleTask.taskID);
 console.log(getProjectFromTaskID(exampleTask.taskID));
+console.log(projectList); */
+
 console.log(projectList);
-
 renderProjectList(projectList);
+renderAllTaskList();
 
-renderTaskListFromProject(getProjectFromTaskID(exampleTask.taskID));
+/* renderTaskListFromProject(getProjectFromTaskID(exampleTask.taskID)); */
 
 // Submit handling for addProjectForm
 
@@ -133,3 +151,22 @@ document.addEventListener('click', (event) => {
     }
 })
 
+// Render allTasks event
+
+const allTasksDiv = document.getElementById('allTasks');
+allTasksDiv.addEventListener('click', renderAllTaskList);
+
+// Render todayTasks event
+
+const todayTasksDiv = document.getElementById('todayTasks');
+todayTasksDiv.addEventListener('click', renderTodayTaskList);
+
+// Render thisWeekTasks event
+
+const thisWeekTasksDiv = document.getElementById('thisWeekTasks');
+thisWeekTasksDiv.addEventListener('click', renderThisWeekTaskList);
+
+// Render bookmarkedTasks event
+
+const bookmarkedTasksDiv = document.getElementById('bookmarkedTasks');
+bookmarkedTasksDiv.addEventListener('click', renderBookmarkedTaskList);
