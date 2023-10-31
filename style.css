@@ -309,8 +309,8 @@ header {
     stroke-dashoffset: 0;
 }
 
-li.completed {
-    background-color: lightgreen !important;
+#taskList>li.completed {
+    background-color: lightgreen;
 }
 
 .c-form__radio-icon {
@@ -321,7 +321,7 @@ li.completed {
 
 .c-form__radio-circle {
     fill: none;
-    stroke: black;
+    stroke: var(--green-700);
     stroke-width: 2;
     transition: stroke 0.3s ease-in;
 }
@@ -354,6 +354,14 @@ li.completed {
 
 #taskList>li>.dueDate {
     text-align: right;
+}
+
+li.overdue {
+    outline: solid 2px black;
+}
+
+.bookmark {
+    color: var(--blue-600);
 }
 
 .bookmark:hover {
