@@ -1,224 +1,234 @@
 import { format } from "date-fns";
-import { getProjectFromTaskID, getTaskFromTaskID } from "./creatingTask";
+import { convertTaskDueDate, getProjectFromTaskID, getTaskFromTaskID } from "./creatingTask";
 import { createIconDiv } from "./renderProjects";
-import { renderTaskListFromProject } from "./renderTaskList";
+import { renderBookmarkedTaskList, renderTaskListFromProject } from "./renderTaskList";
 import { saveToLocalStorage } from "./creatingProject";
 
 const formatTaskDueDate = (taskDueDate) => {
-  const dateArr = taskDueDate.split('-');
-  return format(new Date(dateArr[0], dateArr[1]-1, dateArr[2]), 'P');
+    const dateArr = taskDueDate.split('-');
+    return format(new Date(dateArr[0], dateArr[1]-1, dateArr[2]), 'P');
 }
 
 // Task Render Helpers
 
 const renderTaskPriority = (taskLi, priorityDiv) => {
-  const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
+    const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
 
-  taskLi.classList.remove('yellowPrio');
-  taskLi.classList.remove('orangePrio');
-  taskLi.classList.remove('redPrio');
-  taskLi.classList.remove('noPrio');
+    taskLi.classList.remove('yellowPrio');
+    taskLi.classList.remove('orangePrio');
+    taskLi.classList.remove('redPrio');
+    taskLi.classList.remove('noPrio');
 
-  if (task.priority === '1') {
-      priorityDiv.textContent = 'Priority - !';
-      taskLi.classList.add('yellowPrio');
-  } else if (task.priority === '2') {
-      priorityDiv.textContent = 'Priority - !!';
-      taskLi.classList.add('orangePrio');
-  } else if (task.priority === '3') {
-      priorityDiv.textContent = 'Priority - !!!';
-      taskLi.classList.add('redPrio');
-  } else {
-      priorityDiv.textContent = 'Priority - X';
-      taskLi.classList.add('noPrio');
-  }
+    if (task.priority === '1') {
+        priorityDiv.textContent = 'Priority - !';
+        taskLi.classList.add('yellowPrio');
+    } else if (task.priority === '2') {
+        priorityDiv.textContent = 'Priority - !!';
+        taskLi.classList.add('orangePrio');
+    } else if (task.priority === '3') {
+        priorityDiv.textContent = 'Priority - !!!';
+        taskLi.classList.add('redPrio');
+    } else {
+        priorityDiv.textContent = 'Priority - X';
+        taskLi.classList.add('noPrio');
+    }
 }
 
 const renderTaskBookmark = (taskLi, bookmarkDiv) => {
-  const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
+    const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
 
-  if (task.bookmarked) {
-      bookmarkDiv.classList.add('filledIcon');
-  } else {
-      bookmarkDiv.classList.remove('filledIcon');
-  }
+    if (task.bookmarked) {
+        bookmarkDiv.classList.add('filledIcon');
+    } else {
+        bookmarkDiv.classList.remove('filledIcon');
+    }
 }
 
 const renderTaskCompletion = (taskLi, checkboxDiv) => {
-  const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
+    const task = getTaskFromTaskID(taskLi.getAttribute('taskID'));
 
-  if (task.completed) {
-      checkboxDiv.classList.add('completed');
-      taskLi.classList.add('completed');
-  } else {
-      checkboxDiv.classList.remove('completed');
-      taskLi.classList.remove('completed');
-  }
+    if (task.completed) {
+        checkboxDiv.classList.add('completed');
+        taskLi.classList.add('completed');
+    } else {
+        checkboxDiv.classList.remove('completed');
+        taskLi.classList.remove('completed');
+    }
 }
 
 const renderTaskMenu = (taskOptionsDiv) => {
-  const task = getTaskFromTaskID(taskOptionsDiv.getAttribute('taskID'));
+    const task = getTaskFromTaskID(taskOptionsDiv.getAttribute('taskID'));
 
-  const taskMenu = document.createElement('div');
-  taskMenu.setAttribute('id', 'taskMenu');
-  taskMenu.setAttribute('taskID', task.taskID);
+    const taskMenu = document.createElement('div');
+    taskMenu.setAttribute('id', 'taskMenu');
+    taskMenu.setAttribute('taskID', task.taskID);
 
-  const project = getProjectFromTaskID(task.taskID);
+    const project = getProjectFromTaskID(task.taskID);
 
-  const taskMenuItem1 = document.createElement('div');
-  taskMenuItem1.classList.add('taskMenuItem');
-  taskMenuItem1.setAttribute('id', 'deleteTask');
-  taskMenuItem1.textContent = 'Delete';
-  taskMenuItem1.addEventListener('click', () => {
-      project.taskList.splice(project.taskList.indexOf(task), 1);
-      renderTaskListFromProject(project);
-      taskMenu.remove();
+    const taskMenuItem1 = document.createElement('div');
+    taskMenuItem1.classList.add('taskMenuItem');
+    taskMenuItem1.setAttribute('id', 'deleteTask');
+    taskMenuItem1.textContent = 'Delete';
+    taskMenuItem1.addEventListener('click', () => {
+        project.taskList.splice(project.taskList.indexOf(task), 1);
+        renderTaskListFromProject(project);
+        taskMenu.remove();
 
-      saveToLocalStorage();
-  })
+        saveToLocalStorage();
+    })
 
-  const taskMenuItem2 = document.createElement('div');
-  taskMenuItem2.classList.add('taskMenuItem');
-  taskMenuItem2.setAttribute('id', 'editTask');
-  taskMenuItem2.textContent = 'Edit';
-  taskMenuItem2.addEventListener('click', () => {
-      const editTaskForm = document.getElementById('editTaskForm');
-      if (!editTaskForm) {
-          renderEditTaskForm(task);
-      } else if (editTaskForm.getAttribute('taskID') !== task.taskID) {
-          editTaskForm.remove();
-          renderEditTaskForm(task);
-      }
-      taskMenu.remove();
-  })
+    const taskMenuItem2 = document.createElement('div');
+    taskMenuItem2.classList.add('taskMenuItem');
+    taskMenuItem2.setAttribute('id', 'editTask');
+    taskMenuItem2.textContent = 'Edit';
+    taskMenuItem2.addEventListener('click', () => {
+        const editTaskForm = document.getElementById('editTaskForm');
+        if (!editTaskForm) {
+            renderEditTaskForm(task);
+        } else if (editTaskForm.getAttribute('taskID') !== task.taskID) {
+            editTaskForm.remove();
+            renderEditTaskForm(task);
+        }
+        taskMenu.remove();
+    })
 
-  taskMenu.appendChild(taskMenuItem1);
-  taskMenu.appendChild(taskMenuItem2);
+    taskMenu.appendChild(taskMenuItem1);
+    taskMenu.appendChild(taskMenuItem2);
 
-  body.appendChild(taskMenu);
+    body.appendChild(taskMenu);
 }
 
 // Render Task
 
 const renderTask = (task) => {
-  const taskListUl = document.getElementById('taskList');
+    const taskListUl = document.getElementById('taskList');
 
-  const taskLi = document.createElement('li');
-  taskLi.classList.add('task');
-  taskLi.classList.add('prevent-select');
-  taskLi.setAttribute('taskID', task.taskID);
+    const taskLi = document.createElement('li');
+    taskLi.classList.add('task');
+    taskLi.classList.add('prevent-select');
+    taskLi.setAttribute('taskID', task.taskID);
 
-  const checkboxDiv = document.createElement('div');
-  checkboxDiv.classList.add('taskCompletion');
-  checkboxDiv.innerHTML = `<svg class="c-form__radio-icon" viewbox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-      <circle class="c-form__radio-circle" cx="10.809" cy="10.809" r="9.461"/>
-      <polyline class="c-form__radio-tick" points="5 8 10 15 25 0"/>
-  </svg>`;
-  renderTaskCompletion(taskLi, checkboxDiv);
-  checkboxDiv.addEventListener('click', () => {
-      if (task.completed) {
-          task.completed = false;
-      } else {
-          task.completed = true;
-      }
+    const checkboxDiv = document.createElement('div');
+    checkboxDiv.classList.add('taskCompletion');
+    checkboxDiv.innerHTML = `<svg class="c-form__radio-icon" viewbox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+        <circle class="c-form__radio-circle" cx="10.809" cy="10.809" r="9.461"/>
+        <polyline class="c-form__radio-tick" points="5 8 10 15 25 0"/>
+    </svg>`;
+    renderTaskCompletion(taskLi, checkboxDiv);
+    checkboxDiv.addEventListener('click', () => {
+        if (task.completed) {
+            task.completed = false;
+        } else {
+            task.completed = true;
+        }
 
-      renderTaskCompletion(taskLi, checkboxDiv);
+        renderTaskCompletion(taskLi, checkboxDiv);
 
-      saveToLocalStorage();
-  })
+        saveToLocalStorage();
+    })
 
-  const taskNameDiv = document.createElement('div');
-  taskNameDiv.classList.add('taskName');
-  taskNameDiv.textContent = task.taskName;
+    const taskNameDiv = document.createElement('div');
+    taskNameDiv.classList.add('taskName');
+    taskNameDiv.textContent = task.taskName;
 
-  const priorityDiv = document.createElement('div');
-  priorityDiv.classList.add('priority');
-  renderTaskPriority(taskLi, priorityDiv);
-  priorityDiv.addEventListener('click', () => {
-      if (task.priority === '1') {
-          task.priority = '2';
-      } else if (task.priority === '2') {
-          task.priority = '3';
-      } else if (task.priority === '3') {
-          task.priority = '0';
-      } else {
-          task.priority = '1';
-      }
+    const priorityDiv = document.createElement('div');
+    priorityDiv.classList.add('priority');
+    renderTaskPriority(taskLi, priorityDiv);
+    priorityDiv.addEventListener('click', () => {
+        if (task.priority === '1') {
+            task.priority = '2';
+        } else if (task.priority === '2') {
+            task.priority = '3';
+        } else if (task.priority === '3') {
+            task.priority = '0';
+        } else {
+            task.priority = '1';
+        }
 
-      renderTaskPriority(taskLi, priorityDiv);
+        renderTaskPriority(taskLi, priorityDiv);
 
-      saveToLocalStorage();
-  })
+        saveToLocalStorage();
+    })
 
-  const dueDateDiv = document.createElement('div');
-  dueDateDiv.classList.add('dueDate');
-  dueDateDiv.textContent = formatTaskDueDate(task.dueDate);
+    const dueDateDiv = document.createElement('div');
+    dueDateDiv.classList.add('dueDate');
+    dueDateDiv.textContent = formatTaskDueDate(task.dueDate);
+    if ((convertTaskDueDate(task.dueDate) - new Date().setHours(0,0,0,0)) < 0) {
+        taskLi.classList.add('overdue');
+    } else {
+        taskLi.classList.remove('overdue');
+    }
 
-  const bookmarkDiv = createIconDiv('bookmark');
-  bookmarkDiv.classList.add('bookmark');
-  renderTaskBookmark(taskLi, bookmarkDiv);
-  bookmarkDiv.addEventListener('click', () => {
-      if (task.bookmarked) {
-          task.bookmarked = false;
-      } else {
-          task.bookmarked = true;
-      }
+    const bookmarkDiv = createIconDiv('bookmark');
+    bookmarkDiv.classList.add('bookmark');
+    renderTaskBookmark(taskLi, bookmarkDiv);
+    bookmarkDiv.addEventListener('click', () => {
+        if (task.bookmarked) {
+            task.bookmarked = false;
 
-      renderTaskBookmark(taskLi, bookmarkDiv);
+            const mainContentTitle = document.getElementById('mainContentTitle');
+            if (mainContentTitle.textContent === 'Bookmarked') {
+                renderBookmarkedTaskList();
+            }
+        } else {
+            task.bookmarked = true;
+        }
 
-      saveToLocalStorage();
-  })
+        renderTaskBookmark(taskLi, bookmarkDiv);
 
-  const taskOptionsDiv = createIconDiv('more_vert');
-  taskOptionsDiv.classList.add('taskOptions');
-  taskOptionsDiv.setAttribute('taskID', task.taskID);
-  taskOptionsDiv.addEventListener('click', (event) => {
-      if (document.getElementById('taskMenu')) {
-          taskMenu.remove();
-      }
+        saveToLocalStorage();
+    })
 
-      const {pageX: mouseX, pageY: mouseY} = event;
+    const taskOptionsDiv = createIconDiv('more_vert');
+    taskOptionsDiv.classList.add('taskOptions');
+    taskOptionsDiv.setAttribute('taskID', task.taskID);
+    taskOptionsDiv.addEventListener('click', (event) => {
+        if (document.getElementById('taskMenu')) {
+            taskMenu.remove();
+        }
 
-      renderTaskMenu(taskOptionsDiv);
+        const {pageX: mouseX, pageY: mouseY} = event;
 
-      taskMenu.style.top = `${mouseY - taskMenu.offsetHeight}px`;
-      taskMenu.style.right = `${body.offsetWidth - mouseX}px`;
-  })
+        renderTaskMenu(taskOptionsDiv);
 
-  const detailsToggleDiv = document.createElement('div');
-  detailsToggleDiv.classList.add('detailsToggle');
-  detailsToggleDiv.addEventListener('click', () => {
-      detailsDiv.classList.toggle('noWrap');
-      if (detailsToggleIconDiv.textContent === 'keyboard_double_arrow_down') {
-          detailsToggleIconDiv.textContent = 'keyboard_double_arrow_up';
-      } else if (detailsToggleIconDiv.textContent === 'keyboard_double_arrow_up') {
-          detailsToggleIconDiv.textContent = 'keyboard_double_arrow_down';
-      }
-  });
+        taskMenu.style.top = `${mouseY - taskMenu.offsetHeight}px`;
+        taskMenu.style.right = `${body.offsetWidth - mouseX}px`;
+    })
 
-  const detailsToggleTextDiv = document.createElement('div');
-  detailsToggleTextDiv.textContent = 'Details';
+    const detailsToggleDiv = document.createElement('div');
+    detailsToggleDiv.classList.add('detailsToggle');
+    detailsToggleDiv.addEventListener('click', () => {
+        detailsDiv.classList.toggle('noWrap');
+        if (detailsToggleIconDiv.textContent === 'keyboard_double_arrow_down') {
+            detailsToggleIconDiv.textContent = 'keyboard_double_arrow_up';
+        } else if (detailsToggleIconDiv.textContent === 'keyboard_double_arrow_up') {
+            detailsToggleIconDiv.textContent = 'keyboard_double_arrow_down';
+        }
+    });
 
-  const detailsToggleIconDiv = createIconDiv('keyboard_double_arrow_down')
+    const detailsToggleTextDiv = document.createElement('div');
+    detailsToggleTextDiv.textContent = 'Details';
 
-  detailsToggleDiv.appendChild(detailsToggleTextDiv);
-  detailsToggleDiv.appendChild(detailsToggleIconDiv);
+    const detailsToggleIconDiv = createIconDiv('keyboard_double_arrow_down')
 
-  const detailsDiv = document.createElement('div');
-  detailsDiv.classList.add('noWrap');
-  detailsDiv.classList.add('details');
-  detailsDiv.textContent = task.details;
+    detailsToggleDiv.appendChild(detailsToggleTextDiv);
+    detailsToggleDiv.appendChild(detailsToggleIconDiv);
 
-  taskLi.appendChild(checkboxDiv);
-  taskLi.appendChild(taskNameDiv);
-  taskLi.appendChild(priorityDiv);
-  taskLi.appendChild(dueDateDiv);
-  taskLi.appendChild(bookmarkDiv);
-  taskLi.appendChild(taskOptionsDiv);
-  taskLi.appendChild(detailsToggleDiv);
-  taskLi.appendChild(detailsDiv);
+    const detailsDiv = document.createElement('div');
+    detailsDiv.classList.add('noWrap');
+    detailsDiv.classList.add('details');
+    detailsDiv.textContent = task.details;
 
-  taskListUl.appendChild(taskLi);
+    taskLi.appendChild(checkboxDiv);
+    taskLi.appendChild(taskNameDiv);
+    taskLi.appendChild(priorityDiv);
+    taskLi.appendChild(dueDateDiv);
+    taskLi.appendChild(bookmarkDiv);
+    taskLi.appendChild(taskOptionsDiv);
+    taskLi.appendChild(detailsToggleDiv);
+    taskLi.appendChild(detailsDiv);
+
+    taskListUl.appendChild(taskLi);
 }
 
 // Render editTaskForm
@@ -329,6 +339,8 @@ const renderEditTaskForm = (task) => {
         editTaskForm.remove();
     
         renderTaskListFromProject(getProjectFromTaskID(task.taskID));
+
+        saveToLocalStorage();
     }
 
     editTaskForm.addEventListener('submit', function handleFormSubmit(event) {

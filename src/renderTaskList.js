@@ -5,79 +5,79 @@ import { renderTask } from "./renderTask";
 import { convertTaskDueDate, sortTaskList } from "./creatingTask";
 
 const getAllTasks = () => {
-  const allTasks = [];
-  projectList.forEach((project) => {
-    project.taskList.forEach((task) => {
-      allTasks.push(task);
-    })
-  });
-  return allTasks;
+    const allTasks = [];
+    projectList.forEach((project) => {
+        project.taskList.forEach((task) => {
+            allTasks.push(task);
+        })
+    });
+    return allTasks;
 }
 
 // Home Section
 
 const renderAllTaskList = () => {
-  unrenderProjectTaskList();
+    unrenderProjectTaskList();
 
-  const mainContentTitle = document.getElementById('mainContentTitle');
-  mainContentTitle.textContent = 'All Tasks';
+    const mainContentTitle = document.getElementById('mainContentTitle');
+    mainContentTitle.textContent = 'All Tasks';
 
-  const allTasks = getAllTasks();
+    const allTasks = getAllTasks();
 
-  sortTaskList(allTasks).forEach((task) => {
-    renderTask(task);
-  })
+    sortTaskList(allTasks).forEach((task) => {
+        renderTask(task);
+    })
 }
 
 const renderTodayTaskList = () => {
-  unrenderProjectTaskList();
+    unrenderProjectTaskList();
 
-  const mainContentTitle = document.getElementById('mainContentTitle');
-  mainContentTitle.textContent = 'Today';
+    const mainContentTitle = document.getElementById('mainContentTitle');
+    mainContentTitle.textContent = 'Today';
 
-  const allTasks = getAllTasks();
+    const allTasks = getAllTasks();
 
-  const todayTasks = allTasks.filter((task) => {
-    return isToday(convertTaskDueDate(task.dueDate));
-  })
+    const todayTasks = allTasks.filter((task) => {
+        return isToday(convertTaskDueDate(task.dueDate));
+    })
 
-  sortTaskList(todayTasks).forEach((task) => {
-    renderTask(task);
-  })
+    sortTaskList(todayTasks).forEach((task) => {
+        renderTask(task);
+    })
 }
 
 const renderThisWeekTaskList = () => {
-  unrenderProjectTaskList();
+    unrenderProjectTaskList();
 
-  const mainContentTitle = document.getElementById('mainContentTitle');
-  mainContentTitle.textContent = 'This Week';
+    const mainContentTitle = document.getElementById('mainContentTitle');
+    mainContentTitle.textContent = 'This Week';
 
-  const allTasks = getAllTasks();
+    const allTasks = getAllTasks();
 
-  const thisWeekTasks = allTasks.filter((task) => {
-    return isThisWeek(convertTaskDueDate(task.dueDate));
-  })
+    const thisWeekTasks = allTasks.filter((task) => {
+        return isThisWeek(convertTaskDueDate(task.dueDate));
+    })
 
-  sortTaskList(thisWeekTasks).forEach((task) => {
-    renderTask(task);
-  })
+    sortTaskList(thisWeekTasks).forEach((task) => {
+        renderTask(task);
+    })
 }
 
 const renderBookmarkedTaskList = () => {
-  unrenderProjectTaskList();
+    unrenderProjectTaskList();
 
-  const mainContentTitle = document.getElementById('mainContentTitle');
-  mainContentTitle.textContent = 'Bookmarked';
+    const mainContentTitle = document.getElementById('mainContentTitle');
+    mainContentTitle.textContent = 'Bookmarked';
 
-  const allTasks = getAllTasks();
+    const allTasks = getAllTasks();
 
-  const bookmarkedTasks = allTasks.filter((task) => {
-    return task.bookmarked;
-  })
+    const bookmarkedTasks = allTasks.filter((task) => {
+        return task.bookmarked;
+    })
 
-  sortTaskList(bookmarkedTasks).forEach((task) => {
-    renderTask(task);
-  })
+    sortTaskList(bookmarkedTasks).forEach((task) => {
+        renderTask(task);
+    })
 }
 
 // Projects Section

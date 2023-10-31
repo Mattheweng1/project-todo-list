@@ -1,6 +1,5 @@
 import { projectList, saveToLocalStorage } from "./creatingProject";
 import { v4 as uuidv4 } from 'uuid';
-import { convertTaskDueDate } from "./renderTaskList";
 
 const CreateTask = (projectName, taskName, details, completed, priority, bookmarked, dueDate) => {
     const taskID = uuidv4();

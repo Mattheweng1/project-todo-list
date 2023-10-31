@@ -1,6 +1,7 @@
 import { getProjectFromProjectID, projectList, saveToLocalStorage } from "./creatingProject";
+import { validateProjectName } from "./customValidation";
 import { dragAndDropEvent } from "./dragAndDrop";
-import { renderTaskListFromProject } from "./renderTaskList";
+import { renderAllTaskList, renderBookmarkedTaskList, renderTaskListFromProject, renderThisWeekTaskList, renderTodayTaskList } from "./renderTaskList";
 
 const createIconDiv = (name) => {
     const icon = document.createElement('div');
@@ -51,13 +52,23 @@ const renderProjectMenu = (projectOptionsDiv) => {
     projectMenuItem1.textContent = 'Delete';
     projectMenuItem1.addEventListener('click', () => {
         const mainContentTitle = document.getElementById('mainContentTitle');
-        if (project.projectID === mainContentTitle.getAttribute('projectID')) {
+        if (mainContentTitle.textContent === project.name) {
             unrenderProjectTaskList();
         }
 
         projectList.splice(projectList.indexOf(project), 1);
         renderProjectList(projectList);
         projectMenu.remove();
+
+        if (mainContentTitle.textContent === 'All Tasks') {
+            renderAllTaskList();
+        } else if (mainContentTitle.textContent === 'Today') {
+            renderTodayTaskList();
+        } else if (mainContentTitle.textContent === 'This Week') {
+            renderThisWeekTaskList();
+        } else if (mainContentTitle.textContent === 'Bookmarked') {
+            renderBookmarkedTaskList();
+        }
 
         saveToLocalStorage();
     })
@@ -175,6 +186,7 @@ const renderEditProjectForm = (project) => {
     editProjectNameInput.setAttribute('id', 'editProjectName');
     editProjectNameInput.setAttribute('name', 'editProjectName');
     editProjectNameInput.setAttribute('placeholder', 'Project Name');
+    editProjectNameInput.setAttribute('required', '');
     editProjectNameInput.setAttribute('value', project.name);
 
     const submitEditProjectFormBtn = document.createElement('button');
@@ -208,11 +220,19 @@ const renderEditProjectForm = (project) => {
         projectOptionsDiv.classList.remove('displayNone');
     
         renderProjectList(projectList);
+
+        saveToLocalStorage();
     }
 
     editProjectForm.addEventListener('submit', function handleFormSubmit(event) {
         event.preventDefault();
         submitEditProjectForm();
+    })
+
+    // Add Custom Validation
+    
+    editProjectForm.elements["editProjectName"].addEventListener('input', function handleInput() {
+        validateProjectName(editProjectForm.elements["editProjectName"]);
     })
 }
 

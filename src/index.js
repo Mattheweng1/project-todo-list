@@ -1,7 +1,18 @@
 import { projectList, addNewProject } from "./creatingProject";
 import { addNewTask, getProjectFromTaskID } from "./creatingTask";
+import { validateProjectName } from "./customValidation";
 import { renderProjectList } from "./renderProjects";
 import { renderAllTaskList, renderBookmarkedTaskList, renderThisWeekTaskList, renderTodayTaskList, renderTaskListFromProject } from "./renderTaskList";
+
+if (projectList.length === 0) {
+    addNewProject('Example Project');
+    addNewTask('Example Project', 'Example Task', `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`, false, '1', false, '1111-11-11');
+}
+
+renderProjectList(projectList);
+renderAllTaskList();
+
+// Helper function
 
 const getRadioValue = (name) => {
     const radios = document.getElementsByName(name);
@@ -12,28 +23,6 @@ const getRadioValue = (name) => {
         }
     }
 }
-
-/* addNewProject('Work Stuff');
-addNewProject('chores');
-
-const exampleTask = addNewTask('Work Stuff', 'Code project', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, true, '1', true, '2023-10-30');
-
-const exampleTask2 = addNewTask('chores', 'sumting', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '2', true, '2023-10-30');
-
-const exampleTask3 = addNewTask('chores', 'sumting else', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '3', false, '2023-10-31');
-
-const exampleTask4 = addNewTask('Work Stuff', 'check tasks', `more than just some details, but a bunch of other stuff for sure, trust me, you won't be sorry of course, I never lie, hehehehehehehe`, false, '3', false, '2023-11-17'); */
-
-/* console.log(exampleTask.taskID);
-console.log(exampleTask.taskID);
-console.log(getProjectFromTaskID(exampleTask.taskID));
-console.log(projectList); */
-
-console.log(projectList);
-renderProjectList(projectList);
-renderAllTaskList();
-
-/* renderTaskListFromProject(getProjectFromTaskID(exampleTask.taskID)); */
 
 // Submit handling for addProjectForm
 
@@ -53,6 +42,14 @@ addProjectForm.addEventListener('submit', function handleFormSubmit(event) {
     submitAddProjectForm();
     addProjectForm.classList.add('displayNone');
     addProjectBtn.classList.remove('displayNone');
+})
+
+// addProjectForm Validation
+
+const addProjectNameInput = document.getElementById('addProjectName');
+
+addProjectNameInput.addEventListener('input', function handleInput() {
+    validateProjectName(addProjectNameInput);
 })
 
 // Toggle addProjectForm event listener
